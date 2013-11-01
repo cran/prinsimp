@@ -39,6 +39,8 @@ layout manually, using the 'layout' argument")
         layout[7 - seq_len(right_col_model)] <- seq(to = model_basis,
                                                     len = right_col_model)
 
+        if (all(layout[ , 1] == 0)) layout[ , 1] <- layout[ , 2]
+        else if (all(layout[ , 2] == 0)) layout[ , 2] <- layout[ , 1]
         
         layout[, 3:4] <- c(basis_to_plot+1, basis_to_plot+1, basis_to_plot+2,
                            basis_to_plot+1, basis_to_plot+1, basis_to_plot+2)

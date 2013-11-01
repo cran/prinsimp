@@ -1,0 +1,4 @@
+%\VignetteIndexEntry{Introduction to prinsimp}
+\documentclass{article}
+\begin{document}
+\end{document}

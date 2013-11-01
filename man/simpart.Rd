@@ -126,24 +126,29 @@ simpart(y, simpledim, ...)
   
   \item{variance}{
     list of three components:
+    \describe{
+      \item{model}{variances associated with the vectors in the model
+        basis.}
 
-    model: variances associated with the vectors in the model basis
+      \item{simple}{variances associated with the vectors in the
+        simplicity basis of the nearly null space.}
 
-    simple: variances associated with the vectors in the simplicity basis of the nearly null space.
-
-    full: variances associated with eigenvectors of the covariance
-    matrix, that is, its eigenvalues.
+      \item{full}{variances associated with eigenvectors of the
+        covariance matrix, that is, its eigenvalues.}
+    }
   }
   
   \item{simplicity}{
     list of three components:
+    \describe{
+      \item{model}{simplicity values of the vectors in the model basis.}
 
-    model: simplicity values of the vectors in the model basis
+      \item{simple}{eigenvalues of the vectors in the simplicity basis
+        of the nearly null space.}
 
-    simple: eigenvalues of the vectors in the simplicity basis of the nearly null space.
-
-    full: simplicity values of the simplicity basis when
-    \code{simpledim=d}
+      \item{full}{simplicity values of the simplicity basis when
+        \code{simpledim=d}.}
+    }
   }
   
   \item{call}{
@@ -156,7 +161,15 @@ simpart(y, simpledim, ...)
   }
   
   \item{varperc}{
-    the percent of variance explained by the corresponding basis vector.
+    the percent of variance explained by the corresponding basis vector,
+    as a list of two components:
+    \describe{
+      \item{model}{percent of variance explained by the vectors in the
+        model basis.}
+
+      \item{simple}{percent of variance explained by the vectors in the
+        simplicity basis of the nearly null space.}
+    }
   }
   
   \item{scores}{

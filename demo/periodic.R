@@ -1,3 +1,4 @@
+library(prinsimp)
 library(MASS)
 
 ##  constructs  n random functions of the form
@@ -11,13 +12,9 @@ library(MASS)
 periodic.example <- function(L=72, M=5, K=12, a0, a1, a2, sd.sigma, e, n=100, x.max) {
     N <- length(sd.sigma)
     set.seed(123)
-    if (N == 1) {
-        beta <- mvrnorm(n=n, mu=0, Sigma=sd.sigma^2)
-    }
-    else {
-        ## beta is coefficient for repetitive parts
-        beta <- mvrnorm(n=n, mu=rep(0, N), Sigma=diag(sd.sigma^2))
-    }
+#
+    beta1 <- rnorm(n*N, mean=rep(0,n*N), sd=rep(sd.sigma,n))
+    beta <- t(matrix(beta1,nrow=N, ncol=n))
     
     ## alpha0 is coefficient for the constant
     alpha0 <- rnorm(n=n, mean=0, sd=a0)
@@ -32,7 +29,7 @@ periodic.example <- function(L=72, M=5, K=12, a0, a1, a2, sd.sigma, e, n=100, x.
     
     ## construct the N repetitive parts
     x <- seq(1, x.max)
-    x.argument <- (2 * pi * 1:N %o% x) / K
+    x.argument <- (2 * pi * (1:N) %o% x) / K
     big.sin <- sin(x.argument)
     repetitive.parts <- beta %*% big.sin
     
@@ -47,7 +44,7 @@ periodic.example <- function(L=72, M=5, K=12, a0, a1, a2, sd.sigma, e, n=100, x.
 
 
 ## Simulates 100 curves of length 72 with the parameters in vignette
-example <- periodic.example(a0=4, a1=5, a2=1, sd.sigma=c(.8,.001), e=0.3, x.max=72)
+example <- periodic.example(a0=4, a1=4, a2=0, sd.sigma=.2, e=1, x.max=72)
 
 ## Plots the first 15 curves to see the periodic structure
 matplot(t(example[1:15,]), type="l", xlab="x", ylab="y")
@@ -63,8 +60,11 @@ plot(periodic.sim, display=list(model=TRUE), layout=matrix(1:4, 2, 2))
 
 ## Demonstrate the use of na.action by deleting some elements
 ## of our data matrix
-example[2,3] <- NA
-example[53,30] <- NA
+example.NA <- example
+example.NA[2,3] <- NA
+
+example.NA[53,30] <- NA
 
 ## Run simpart on the data matrix removing the missing data
-periodic.omit <- simpart(example, simpledim=70, "periodic", period=12, na.action=na.omit)
+periodic.omit <- simpart(example.NA, simpledim=70, "periodic", period=12, na.action=na.omit)
+

@@ -302,3 +302,10 @@ score <- function(x, B) {
     d <- ncol(B)
     scale(x, TRUE, rep.int(1L, d)) %*% B
 }
+
+
+### Choose the direction of the eigenvector so that the largest element
+### is positive
+fix_direction <- function(x) {
+    if (length(x) > 0 && (max(x) != max(abs(x)))) -x else x
+}
